@@ -1,10 +1,10 @@
-package com.Investment.presentation;
+package com.netmind.presentation;
 
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import com.Investment.model.Investors;
+import com.netmind.model.Investors;
 
 public class Menu {
 

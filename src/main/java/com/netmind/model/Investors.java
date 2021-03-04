@@ -1,4 +1,4 @@
-package com.Investment.model;
+package com.netmind.model;
 
 public class Investors {
 
