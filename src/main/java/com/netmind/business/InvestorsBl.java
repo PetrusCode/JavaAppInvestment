@@ -3,14 +3,11 @@ package com.netmind.business;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import com.netmind.dao.InvestorsDao;
 import com.netmind.model.Investors;
-import com.opencsv.CSVParser;
 
 public class InvestorsBl {
 	Investors investors = new Investors();
@@ -29,12 +26,11 @@ public class InvestorsBl {
 
 	}
 
-	public static List<LocalDate> roadM() {
-		CSVParser csvParser = new CSVParser();
-
-		return null;
-
-	}
+	/*
+	 * public static void lastThursday(int month, int year) { LocalDate
+	 * lastThursday = LocalDate.of(year, month, 1).with(lastInMonth(THURSDAY));
+	 * System.out.println("lastThursday = " + lastThursday); }
+	 */
 
 	public static int getDayNumberOld(String sDate) throws ParseException {
 
