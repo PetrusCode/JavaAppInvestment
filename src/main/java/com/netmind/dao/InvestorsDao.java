@@ -30,20 +30,15 @@ public class InvestorsDao {
 		return arrayList.add(investors);
 	}
 
-	public static List<Investors> readCsv()
-			throws IOException, CsvException, ParseException {
+	public static List<Investors> readCsv() throws IOException, CsvException, ParseException {
 		CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
 
-		try (CSVReader reader = new CSVReaderBuilder(
-				new FileReader("stocks-ITX.csv")).withCSVParser(csvParser)
-						.withSkipLines(1).build()) {
+		try (CSVReader reader = new CSVReaderBuilder(new FileReader("stocks-ITX.csv")).withCSVParser(csvParser)
+				.withSkipLines(1).build()) {
 			List<String[]> r2 = reader.readAll();
 			r2.forEach(x -> System.out.println(Arrays.toString(x)));
 		}
-		;
-		String klk = "23-may-2001";
 
-		System.out.println(getDayNumberOld(klk));
 		return arrayList;
 
 	}
