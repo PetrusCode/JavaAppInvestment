@@ -1,39 +1,46 @@
 package com.netmind.model;
 
+import java.time.LocalDate;
+
 import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvDate;
+import com.opencsv.bean.CsvNumber;
 
 public class Cotizaciones {
 
+	@CsvDate("dd-MMM-yyyy")
 	@CsvBindByPosition(position = 0)
-	private String fecha;
+	private LocalDate fecha;
 
+	@CsvNumber("000,0")
 	@CsvBindByPosition(position = 1)
-	private String cierre;
+	private Double cierre;
 
+	@CsvNumber("000,0")
 	@CsvBindByPosition(position = 2)
-	private String apertura;
+	private Double apertura;
 
-	public String getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(String fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
-	public String getCierre() {
+	public Double getCierre() {
 		return cierre;
 	}
 
-	public void setCierre(String cierre) {
+	public void setCierre(Double cierre) {
 		this.cierre = cierre;
 	}
 
-	public String getApertura() {
+	public Double getApertura() {
 		return apertura;
 	}
 
-	public void setApertura(String apertura) {
+	public void setApertura(Double apertura) {
 		this.apertura = apertura;
 	}
 
@@ -49,7 +56,6 @@ public class Cotizaciones {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
+
 	// getters, setters, toString
 }
