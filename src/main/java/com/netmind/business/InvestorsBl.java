@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.netmind.dao.CotizacionesDao;
 import com.netmind.dao.InvestorsDao;
 import com.netmind.model.Investors;
 
@@ -20,6 +21,7 @@ public class InvestorsBl {
 	}
 
 	public static BigDecimal calculateStock(Date fecha) {
+		CotizacionesDao cotizacionesDao = new CotizacionesDao();
 		InvestorsDao investorsDao = new InvestorsDao();
 
 		return null;
