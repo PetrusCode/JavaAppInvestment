@@ -2,7 +2,7 @@ package com.netmind.presentation;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
@@ -10,6 +10,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 import com.netmind.business.CotizacionesBl;
+import com.netmind.dao.CotizacionesDao;
 import com.netmind.model.Cotizaciones;
 import com.netmind.model.Investors;
 
@@ -87,13 +88,18 @@ public class Menu {
 	public static double calcularGanancias() throws IllegalStateException,
 			FileNotFoundException, ParseException {
 		CotizacionesBl cotizacionesBL = new CotizacionesBl();
+
+		List<Cotizaciones> cotizacionesList = CotizacionesDao.GetCotizaciones();
+
+		Cotizaciones lastCot = cotizacionesList.get(0);
+		double cierreLast = lastCot.getCierre();
 		double valor = 0;
 		int montoInversion = 50;
 		double porcentajeBroker = 0.02;
 		List<Cotizaciones> cotizaciones = cotizacionesBL.getNextDayQuotations();
 
-		double aperturaLast = cotizaciones.get(cotizaciones.size() - 1)
-				.getApertura();
+		double lastCierre = cotizaciones.get(cotizaciones.size() - 1)
+				.getCierre();
 		for (Cotizaciones cotizacion : cotizaciones) {
 			double apertura = cotizacion.getApertura();
 			double divisor = montoInversion * porcentajeBroker;
@@ -102,18 +108,17 @@ public class Menu {
 
 			System.out.println(cotizacion.toString());
 			// Math.round(resultado * 1000d) / 1000d
-			valor += resultado;
-			BigDecimal conversion = new BigDecimal(valor);
-			MathContext digitos = new MathContext(7);
-			BigDecimal conversionRound = conversion.round(digitos);
-			double finalres = conversion.doubleValue() * aperturaLast;
 
-			BigDecimal conversion2 = new BigDecimal(finalres);
-			MathContext digitos2 = new MathContext(8);
-			BigDecimal conversionRound2 = conversion2.round(digitos2);
-			if (cotizacion.getApertura().equals(aperturaLast)) {
-				System.out.println(("Total acciones\n" + conversionRound));
-				System.out.println("Capital final\n" + (conversionRound2));
+			BigDecimal conversion = new BigDecimal(resultado).setScale(3,
+					RoundingMode.HALF_UP);
+			valor += conversion.doubleValue();
+
+			if (cotizacion.getCierre().equals(lastCierre)) {
+				double finalres = valor * cierreLast;
+				BigDecimal nuevaConversion = new BigDecimal(finalres)
+						.setScale(3, RoundingMode.HALF_UP);
+				System.out.println(("Total acciones\n" + valor));
+				System.out.println("Capital final\n" + (nuevaConversion) + "€");
 			}
 
 		}
