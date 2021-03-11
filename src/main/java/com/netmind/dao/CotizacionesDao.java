@@ -11,7 +11,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 
 public class CotizacionesDao {
 
-	public static List<Cotizaciones> GetCotizaciones(Cotizaciones cotizaciones)
+	public static List<Cotizaciones> GetCotizaciones()
 			throws IllegalStateException, FileNotFoundException {
 		String fileName = "stocks-ITX.csv";
 		List<Cotizaciones> beans = new CsvToBeanBuilder<Cotizaciones>(
