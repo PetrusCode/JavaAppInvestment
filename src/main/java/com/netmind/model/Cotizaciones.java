@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvDate;
-import com.opencsv.bean.CsvNumber;
 
 public class Cotizaciones {
 
@@ -12,11 +11,9 @@ public class Cotizaciones {
 	@CsvBindByPosition(position = 0)
 	private LocalDate fecha;
 
-	@CsvNumber("000,0")
 	@CsvBindByPosition(position = 1)
 	private Double cierre;
 
-	@CsvNumber("000,0")
 	@CsvBindByPosition(position = 2)
 	private Double apertura;
 

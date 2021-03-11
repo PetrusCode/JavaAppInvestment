@@ -1,15 +1,15 @@
 package com.netmind.presentation;
 
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
 import com.netmind.business.CotizacionesBl;
-import com.netmind.dao.CotizacionesDao;
 import com.netmind.model.Cotizaciones;
 import com.netmind.model.Investors;
 
@@ -18,6 +18,7 @@ public class Menu {
 	@SuppressWarnings("static-access")
 	public static void investorsOptions() throws IllegalStateException,
 			FileNotFoundException, ParseException {
+
 		CotizacionesBl cotizacionesBl = new CotizacionesBl();
 		Scanner scanner = new Scanner(System.in);
 
@@ -50,6 +51,7 @@ public class Menu {
 			}
 		} while (options != 2);
 		scanner.close();
+
 	}
 
 	public static void home() {
@@ -74,45 +76,49 @@ public class Menu {
 
 		System.out.println("Fecha fin de inversion");
 
-		CotizacionesBl.getAllLastThursday();
-		List<Cotizaciones> cotis = CotizacionesDao
-				.GetCotizaciones(cotizaciones);
-		Cotizaciones firstCot = cotis.get(0);
-		Cotizaciones lastCot = cotis.get(cotis.size() - 1);
-		List<LocalDate> dates = CotizacionesBl
-				.getAllLastThursday(lastCot.getFecha(), firstCot.getFecha());
+		// coti.setApertura(res);
 
-		int count = 1;
-		for (LocalDate date : dates) {
-
-			String apertura = findCotizacionPorFecha(date, cotis);
-			System.out.println(count + " - " + apertura);
-			count++;
-
-		}
-
-		System.out.println(dates.size());
+		// System.out.println(dates.size());
 		System.out.println(System.getProperty("java.version"));
+
 	}
 
 	@SuppressWarnings("static-access")
-	public static String findCotizacionPorFecha(LocalDate fecha,
-			List<Cotizaciones> cotizaciones) {
-		String valor = "";
-		int monto = 49;
+	public static double calcularGanancias() throws IllegalStateException,
+			FileNotFoundException, ParseException {
+		CotizacionesBl cotizacionesBL = new CotizacionesBl();
+		double valor = 0;
+		int montoInversion = 50;
+		double porcentajeBroker = 0.02;
+		List<Cotizaciones> cotizaciones = cotizacionesBL.getNextDayQuotations();
 
-		for (Cotizaciones coti : cotizaciones) {
+		double aperturaLast = cotizaciones.get(cotizaciones.size() - 1)
+				.getApertura();
+		for (Cotizaciones cotizacion : cotizaciones) {
+			double apertura = cotizacion.getApertura();
+			double divisor = montoInversion * porcentajeBroker;
+			double montoInversionReal = montoInversion - divisor;
+			double resultado = montoInversionReal / (apertura);
 
-			Double apertura = coti.getApertura();
+			System.out.println(cotizacion.toString());
+			// Math.round(resultado * 1000d) / 1000d
+			valor += resultado;
+			BigDecimal conversion = new BigDecimal(valor);
+			MathContext digitos = new MathContext(7);
+			BigDecimal conversionRound = conversion.round(digitos);
+			double finalres = conversion.doubleValue() * aperturaLast;
 
-			// int suma = monto / (apertura + apertura);
-			// int res = suma;
-			if (coti.getFecha().equals(fecha)) {
-				valor = coti.toString();
-
+			BigDecimal conversion2 = new BigDecimal(finalres);
+			MathContext digitos2 = new MathContext(8);
+			BigDecimal conversionRound2 = conversion2.round(digitos2);
+			if (cotizacion.getApertura().equals(aperturaLast)) {
+				System.out.println(("Total acciones\n" + conversionRound));
+				System.out.println("Capital final\n" + (conversionRound2));
 			}
+
 		}
 		return valor;
 
 	}
+
 }
