@@ -17,8 +17,7 @@ import com.netmind.model.Investors;
 public class Menu {
 
 	@SuppressWarnings("static-access")
-	public static void investorsOptions() throws IllegalStateException,
-			FileNotFoundException, ParseException {
+	public static void investorsOptions() throws IllegalStateException, FileNotFoundException, ParseException {
 
 		CotizacionesBl cotizacionesBl = new CotizacionesBl();
 		Scanner scanner = new Scanner(System.in);
@@ -30,8 +29,7 @@ public class Menu {
 
 			try {
 				options = Integer.parseInt(
-						JOptionPane.showInputDialog("Opciones para invertir"
-								+ "\n 1.Invertir en (�)" + "\n 2.Exit"));
+						JOptionPane.showInputDialog("Opciones para invertir" + "\n 1.Invertir en (�)" + "\n 2.Exit"));
 			} catch (Exception e) {
 				System.out.println(e.getMessage() + "Introduzca un numero");
 				e.getStackTrace();
@@ -60,9 +58,8 @@ public class Menu {
 		System.out.println("1.Invertir en (�)");
 	}
 
-	public static <Scansner> void completeInvestiment(Investors investors,
-			Scansner scanner, Cotizaciones cotizaciones) throws ParseException,
-			IllegalStateException, FileNotFoundException {
+	public static <Scansner> void completeInvestiment(Investors investors, Scansner scanner, Cotizaciones cotizaciones)
+			throws ParseException, IllegalStateException, FileNotFoundException {
 		System.out.println("---Invierta en euros---");
 		System.out.println("Introduzca nombre:");
 		investors.setName(((Scanner) scanner).nextLine());
@@ -85,8 +82,7 @@ public class Menu {
 	}
 
 	@SuppressWarnings("static-access")
-	public static double calcularGanancias() throws IllegalStateException,
-			FileNotFoundException, ParseException {
+	public static double calcularGanancias() throws IllegalStateException, FileNotFoundException, ParseException {
 		CotizacionesBl cotizacionesBL = new CotizacionesBl();
 
 		List<Cotizaciones> cotizacionesList = CotizacionesDao.GetCotizaciones();
@@ -96,10 +92,9 @@ public class Menu {
 		double valor = 0;
 		int montoInversion = 50;
 		double porcentajeBroker = 0.02;
-		List<Cotizaciones> cotizaciones = cotizacionesBL.getNextDayQuotations();
+		List<Cotizaciones> cotizaciones = cotizacionesBL.getNextDayQuotations(cotizacionesList);
 
-		double lastCierre = cotizaciones.get(cotizaciones.size() - 1)
-				.getCierre();
+		double lastCierre = cotizaciones.get(cotizaciones.size() - 1).getCierre();
 		for (Cotizaciones cotizacion : cotizaciones) {
 			double apertura = cotizacion.getApertura();
 			double divisor = montoInversion * porcentajeBroker;
@@ -109,15 +104,14 @@ public class Menu {
 			System.out.println(cotizacion.toString());
 			// Math.round(resultado * 1000d) / 1000d
 
-			BigDecimal conversion = new BigDecimal(resultado).setScale(3,
-					RoundingMode.HALF_UP);
+			BigDecimal conversion = new BigDecimal(resultado).setScale(3, RoundingMode.HALF_UP);
 			valor += conversion.doubleValue();
+			BigDecimal conversion2 = new BigDecimal(valor).setScale(3, RoundingMode.HALF_UP);
 
 			if (cotizacion.getCierre().equals(lastCierre)) {
-				double finalres = valor * cierreLast;
-				BigDecimal nuevaConversion = new BigDecimal(finalres)
-						.setScale(3, RoundingMode.HALF_UP);
-				System.out.println(("Total acciones\n" + valor));
+				double capitalFinal = conversion2.doubleValue() * cierreLast;
+				BigDecimal nuevaConversion = new BigDecimal(capitalFinal).setScale(3, RoundingMode.HALF_UP);
+				System.out.println(("Total acciones\n" + conversion2));
 				System.out.println("Capital final\n" + (nuevaConversion) + "€");
 			}
 

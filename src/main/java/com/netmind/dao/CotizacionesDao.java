@@ -2,8 +2,6 @@ package com.netmind.dao;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import com.netmind.model.Cotizaciones;
@@ -20,7 +18,9 @@ public class CotizacionesDao {
 		return beans;
 	}
 
-	public static long getNumOfMonths(LocalDate startDate, LocalDate endDate) {
-		return ChronoUnit.MONTHS.between(startDate, endDate);
-	}
+	// segunda forma
+	/*
+	 * public static long getNumOfMonths(LocalDate startDate, LocalDate endDate)
+	 * { return ChronoUnit.MONTHS.between(startDate, endDate); }
+	 */
 }
