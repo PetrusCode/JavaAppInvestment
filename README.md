@@ -6,7 +6,7 @@ This is a app for help the inverstors in Stock-Exchange to calculate their inves
 
 # Requirements
 
-To use the app you just need to introduce the date of your investment and the value you will invest in '€' currency. But since we are just testing you just need to us the CVS file and put it on the folder where you extract the App.
+To use the app you just need to introduce the dates of your investment and the value you will invest in '€' currency. But since we are just testing you just need to use the CSV file ("stocks-ITX.csv") and put it on the folder where you extract the App.
 
 # Installation
 
