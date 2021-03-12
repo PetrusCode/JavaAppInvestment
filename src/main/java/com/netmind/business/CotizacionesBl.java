@@ -14,8 +14,7 @@ import com.netmind.model.Cotizaciones;
 public class CotizacionesBl {
 
 	@SuppressWarnings("static-access")
-	public boolean addCotizaciones(Cotizaciones cotizaciones)
-			throws IllegalStateException, FileNotFoundException {
+	public boolean addCotizaciones(Cotizaciones cotizaciones) throws IllegalStateException, FileNotFoundException {
 
 		CotizacionesDao cotizacionesDao = new CotizacionesDao();
 
@@ -23,43 +22,39 @@ public class CotizacionesBl {
 		return true;
 	}
 
-	public List<LocalDate> getAllLastThursday(LocalDate startDate,
-			LocalDate endDate) throws ParseException, IllegalStateException,
-			FileNotFoundException {
+	public List<LocalDate> getAllLastThursday(LocalDate startDate, LocalDate endDate)
+			throws ParseException, IllegalStateException, FileNotFoundException {
 		List<LocalDate> dates = new ArrayList<LocalDate>();
 		startDate = startDate.withDayOfMonth(1);
-		endDate = endDate.withDayOfMonth(1).plusMonths(1);
+		endDate = endDate.withDayOfMonth(1);
 		do {
 			// Ordenamos la lista de fechas de forma descendente al igual que en
 			// el archivo. para reducir el tiempo de busqueda de esta forma ---
 			// dates.add(0,
 			// lastThursdayInMonth(startDate));
-			dates.add(lastThursdayInMonth(startDate));
+			dates.add(0, lastThursdayInMonth(startDate));
 			startDate = startDate.plusMonths(1);
 		} while (!startDate.equals(endDate));
 		return dates;
 	}
 
-	public List<Cotizaciones> getNextDayQuotations() throws ParseException,
-			IllegalStateException, FileNotFoundException {
+	public List<Cotizaciones> getNextDayQuotations(List<Cotizaciones> cotizacionesList)
+			throws ParseException, IllegalStateException, FileNotFoundException {
 		// Obtenemos todas las cotizaciones
-		List<Cotizaciones> cotizacionesList = CotizacionesDao.GetCotizaciones();
-		Cotizaciones firstCot = cotizacionesList.get(0); // Primera cotización
+
+		Cotizaciones firstCot = cotizacionesList.get(0); // Primera cotizacion
 															// (ultima en fecha)
-		Cotizaciones lastCot = cotizacionesList
-				.get(cotizacionesList.size() - 1); // Ultima cotización (Primera
-													// en fecha)
+		Cotizaciones lastCot = cotizacionesList.get(cotizacionesList.size() - 1); // Ultima cotizacion (Primera
+																					// en fecha)
 
-		List<LocalDate> lastThursdaysList = getAllLastThursday(
-				lastCot.getFecha(), firstCot.getFecha());
+		List<LocalDate> lastThursdaysList = getAllLastThursday(lastCot.getFecha(), firstCot.getFecha());
 
-		// Creamos una lista para ser llenada con días cotizables
+		// Creamos una lista para ser llenada con dias cotizables
 		List<Cotizaciones> nextDayQuotations = new ArrayList<Cotizaciones>();
 
 		for (LocalDate thursday : lastThursdaysList) {
-			Cotizaciones nextStock = findNextDayWithStock(thursday,
-					cotizacionesList, 7);
-			// Si se encuentra una cotización en los próximos 7 días se agrega a
+			Cotizaciones nextStock = findNextDayWithStock(thursday, cotizacionesList, 7);
+			// Si se encuentra una cotizacion en los proximos 7 dias se agrega a
 			// la lista.
 			if (nextStock != null)
 				nextDayQuotations.add(nextStock);
@@ -67,29 +62,27 @@ public class CotizacionesBl {
 		return nextDayQuotations;
 	}
 
-	/// Busca el siguiente día con cotización hasta un límite de días siguientes
-	public Cotizaciones findNextDayWithStock(LocalDate fecha,
-			List<Cotizaciones> cotizaciones, int limit) {
+	/// Busca el siguiente dia con cotizacion hasta un limite de dias siguientes
+	public Cotizaciones findNextDayWithStock(LocalDate fecha, List<Cotizaciones> cotizaciones, int limit) {
 
-		// Añadimos un día a la fecha
+		// a�adimos un dia la fecha
 		LocalDate nextDay = fecha.plusDays(1);
 
-		// Buscamos la cotización del día
+		// Buscamos la cotizacion del dia
 		Cotizaciones stock = findStockByDate(nextDay, cotizaciones);
 
-		// Si no se encuentra la cotización y no se ha llegado al límite de
+		// Si no se encuentra la cotizacion y no se ha llegado al limite de
 		// busqueda,
-		// la función se llama a sí misma para seguir buscando y reduce el
-		// límite en un intento.
+		// la funcion se llama asi misma para seguir buscando y reduce el
+		// limite en un intento.
 		if (stock == null && limit > 0) {
 			return findNextDayWithStock(nextDay, cotizaciones, limit - 1);
 		}
 		return stock;
 	}
 
-	/// Busca en un listado de cotizaciones una cotización según la fecha.
-	public Cotizaciones findStockByDate(LocalDate fecha,
-			List<Cotizaciones> cotizaciones) {
+	/// Busca en un listado de cotizaciones una cotizacion segun la fecha.
+	public Cotizaciones findStockByDate(LocalDate fecha, List<Cotizaciones> cotizaciones) {
 		Cotizaciones stock = null;
 		for (Cotizaciones cotizacion : cotizaciones) {
 
@@ -105,8 +98,8 @@ public class CotizacionesBl {
 
 		return date.with(TemporalAdjusters.lastInMonth(DayOfWeek.THURSDAY));
 
-		// buscar un jueves y el siguiente dia, si no lo encuentra buscar el
-		// siguiente.
+		// busca los ultimos jueves del mes
+
 	}
 
 	public static void getAllLastThursday() {

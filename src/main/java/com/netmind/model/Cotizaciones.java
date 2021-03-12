@@ -46,9 +46,9 @@ public class Cotizaciones {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Cotizaciones [fecha=");
 		builder.append(fecha);
-		builder.append(", cierre=");
+		builder.append("; cierre=");
 		builder.append(cierre);
-		builder.append(", apertura=");
+		builder.append("; apertura=");
 		builder.append(apertura);
 		builder.append("]");
 		return builder.toString();
