@@ -21,5 +21,5 @@ Capital final = 36585.568€
 
 # Contact
 
-You can contact me at petrusHD@hotmail.com
+You can contact me at pedromilianosegura@gmail.com
 
